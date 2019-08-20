@@ -117,7 +117,7 @@ class Eventsdashboard extends Component {
                     </Grid.Column>
                 <Grid.Column width={6}>
                     <Button positive content='Create Event' onClick={this.handleIsOpenToggle}/>
-                    {isOpen && <EventForm  cancelFormOpen={this.handleIsOpenToggle} />}
+                    {isOpen && <EventForm cancelFormOpen={this.handleIsOpenToggle} />}
                     </Grid.Column>
             </Grid>
         )
