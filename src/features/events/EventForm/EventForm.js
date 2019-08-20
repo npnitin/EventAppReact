@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Segment,Form,Button } from 'semantic-ui-react'
+
 class EventForm extends Component {
 
   state={
@@ -7,21 +8,22 @@ class EventForm extends Component {
     date:'',
     city:'',
     venue:'',
-    hostedby:''
+    hostedBy:''
   }
 
   handleFormSubmit = (event) =>{
     event.preventDefault();
-    console.log(this.state);
+    this.props.createEvent(this.state);
   }
   handleChange = (event) =>{
     this.setState({
       [event.target.name]:event.target.value
     })
   }
+ 
     render() {
       const{ cancelFormOpen } = this.props;
-      const{ title,date,city,venue,hostedby } = this.state;
+      const{ title,date,city,venue,hostedBy } = this.state;
         return (
            <Segment>
                          <Form onSubmit={this.handleFormSubmit} autoComplete='Off'>
@@ -62,8 +64,8 @@ class EventForm extends Component {
                              <label>Hosted By</label>
                              <input 
                              placeholder="Enter the name of person hosting"
-                             name='hostedby'
-                             value={hostedby}
+                             name='hostedBy'
+                             value={hostedBy}
                              onChange={this.handleChange} />
                            </Form.Field>
                            <Button positive type="submit">
