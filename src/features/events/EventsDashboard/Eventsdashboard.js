@@ -8,7 +8,7 @@ const eventsFromDashboard = [
   {
     id: '1',
     title: 'Trip to Tower of London',
-    date: '2018-03-27T11:00:00+00:00',
+    date: '2018-03-27',
     category: 'culture',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
@@ -32,7 +32,7 @@ const eventsFromDashboard = [
   {
     id: '3',
     title: 'Trip to Pnchgani',
-    date: '2018-03-28T14:00:00+00:00',
+    date: '2018-03-28',
     category: 'drinks',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
@@ -66,7 +66,7 @@ const eventsFromDashboard = [
   {
     id: '2',
     title: 'Trip to Punch and Judy Pub',
-    date: '2018-03-28T14:00:00+00:00',
+    date: '2018-03-28',
     category: 'drinks',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
@@ -102,12 +102,25 @@ const eventsFromDashboard = [
 class Eventsdashboard extends Component {
   state={
     events:eventsFromDashboard,
-    isOpen:false
+    isOpen:false,
+    selectedEvent:null
   }
-  handleIsOpenToggle = () =>{
+ /*  handleIsOpenToggle = () =>{
     this.setState((prevState)=>({
       isOpen:!prevState.isOpen
     }))
+  } */
+
+  handleCreateFormOpen = () =>{
+    this.setState({
+      isOpen:true,
+      selectedEvent:null
+    })
+  }
+  handleFormCancel =()=>{
+    this.setState({
+      isOpen:false
+    })
   }
   handleCreateEvent = (newEvent) =>{
     newEvent.id = cuid();
@@ -117,18 +130,27 @@ class Eventsdashboard extends Component {
       isOpen:false
     })
   }
+  handleSelectEvent =(event)=>{
+    console.log(event);
+    this.setState({
+      selectedEvent:event,
+      isOpen:true
+    })
+  }
     render() {
-      const{ events,isOpen }=this.state;
+      const{ events,isOpen,selectedEvent }=this.state;
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <EventList events={events} />
+                    <EventList events={events} selectEvent={this.handleSelectEvent} />
                     </Grid.Column>
                 <Grid.Column width={6}>
-                    <Button positive content='Create Event' onClick={this.handleIsOpenToggle}/>
-                    {isOpen && <EventForm 
+                    <Button positive content='Create Event' onClick={this.handleCreateFormOpen}/>
+                    {isOpen && (<EventForm 
+                                    key={selectedEvent?selectedEvent.id:0}
+                                    selectEvent={selectedEvent}
                                     createEvent={this.handleCreateEvent}
-                                    cancelFormOpen={this.handleIsOpenToggle} />}
+                                    cancelFormOpen={this.handleFormCancel} />)}
                     </Grid.Column>
             </Grid>
         )
