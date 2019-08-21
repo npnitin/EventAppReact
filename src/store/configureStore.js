@@ -1,8 +1,8 @@
 import { createStore } from "redux";
-import TestReducer from "../features/testArea/TestReducer";
+import rootReducer from "../reducers/rootReducer";
 export const configureStore = () => {
 
-    const store = createStore(TestReducer)
+    const store = createStore(rootReducer)
     return store;
 }
 
