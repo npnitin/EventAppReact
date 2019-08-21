@@ -3,13 +3,25 @@ import './App.css';
 import Navbar from './features/nav/NavBar/Navbar';
 import { Container } from 'semantic-ui-react';
 import Eventsdashboard from './features/events/EventsDashboard/Eventsdashboard';
-
+import { Route } from 'react-router';
+import HomePage from './features/home/HomePage';
+import EventDetailPage from './features/events/EventDetailed/EventDetailPage';
+import PeopleDashboard from './features/user/PeopleDashboard/PeopleDashboard';
+import SettingsDashboard from './features/user/Settings/SettingsDashboard';
+import UserDetailedPage from './features/user/UserDetailed/UserDetailed';
+import EventForm from './features/events/EventForm/EventForm';
 function App() {
   return (
     <Fragment>
       <Navbar />
         <Container className="main">
-          <Eventsdashboard />
+          <Route path="/" component={HomePage}></Route>
+          <Route path="/events" component={Eventsdashboard}></Route>
+          <Route path="/events/:id" component={EventDetailPage}></Route>
+          <Route path="/people" component={PeopleDashboard}></Route>
+          <Route path="/profile/:id" component={UserDetailedPage}></Route>
+          <Route path="/settings" component={SettingsDashboard}></Route>
+          <Route path="/createEvent" component={EventForm}></Route>
         </Container>
     </Fragment>
   );
