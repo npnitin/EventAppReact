@@ -10,6 +10,7 @@ import PeopleDashboard from './features/user/PeopleDashboard/PeopleDashboard';
 import SettingsDashboard from './features/user/Settings/SettingsDashboard';
 import UserDetailedPage from './features/user/UserDetailed/UserDetailed';
 import EventForm from './features/events/EventForm/EventForm';
+import TestComponent from './features/testArea/TestComponent';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
              <Route exact path="/profile/:id" component={UserDetailedPage}></Route>
              <Route path="/settings" component={SettingsDashboard}></Route>
              <Route exact path="/createEvent" component={EventForm}></Route>
-
+             <Route exact path="/test" component={TestComponent}></Route>
            </Container>
        </Fragment>
        )}/>
