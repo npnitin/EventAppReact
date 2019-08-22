@@ -3,114 +3,24 @@ import { Grid, Button } from 'semantic-ui-react';
 import EventList from '../EventList/EventList';
 import EventForm from '../EventForm/EventForm';
 import cuid from 'cuid';
+import { connect } from 'react-redux';
+import { createEvent,updateEvent,deleteEvent } from '../EventActions';
 
-const eventsFromDashboard = [
-  {
-    id: '1',
-    title: 'Trip to Tower of London',
-    date: '2018-03-27',
-    category: 'culture',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: "Tower of London, St Katharine's & Wapping, London",
-    hostedBy: 'Bob',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
-    attendees: [
-      {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/men/41.jpg'
-      },
-      {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/men/42.jpg'
-      }
-    ]
-  },
-  {
-    id: '3',
-    title: 'Trip to Pnchgani',
-    date: '2018-03-28',
-    category: 'drinks',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: 'Punch & Judy, Henrietta Street, London, UK',
-    hostedBy: 'Sam',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/women/1.jpg',
-    attendees: [
-      {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/women/42.jpg'
-      },
-      {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/women/43.jpg'
-      },
-      {
-        id: 'd',
-        name: 'Carlet',
-        photoURL: 'https://randomuser.me/api/portraits/women/12.jpg'
-      },
-      {
-        id: 'c',
-        name: 'Jenny',
-        photoURL: 'https://randomuser.me/api/portraits/women/4.jpg'
-      }
-    ]
-  },
-  {
-    id: '2',
-    title: 'Trip to Punch and Judy Pub',
-    date: '2018-03-28',
-    category: 'drinks',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: 'Punch & Judy, Henrietta Street, London, UK',
-    hostedBy: 'Tom',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/43.jpg',
-    attendees: [
-      {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/women/42.jpg'
-      },
-      {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/women/43.jpg'
-      },
-      {
-        id: 'd',
-        name: 'Carlet',
-        photoURL: 'https://randomuser.me/api/portraits/women/12.jpg'
-      },
-      {
-        id: 'c',
-        name: 'Jenny',
-        photoURL: 'https://randomuser.me/api/portraits/women/4.jpg'
-      }
-    ]
-  }
-]
+const mapStateToProps = (state) =>({
+  events:state.events
+})
+
+const mapDispatchToProps = {
+  createEvent,
+  updateEvent,
+  deleteEvent
+}
 
 class Eventsdashboard extends Component {
   state={
-    events:eventsFromDashboard,
     isOpen:false,
     selectedEvent:null
   }
- /*  handleIsOpenToggle = () =>{
-    this.setState((prevState)=>({
-      isOpen:!prevState.isOpen
-    }))
-  } */
-
   handleCreateFormOpen = () =>{
     this.setState({
       isOpen:true,
@@ -125,13 +35,12 @@ class Eventsdashboard extends Component {
   handleCreateEvent = (newEvent) =>{
     newEvent.id = cuid();
     newEvent.hostPhotoURL ='/assets/user.png';
+    this.props.createEvent(newEvent);
     this.setState({
-      events:[...this.state.events,newEvent],
       isOpen:false
     })
   }
   handleSelectEvent =(event)=>{
-    console.log(event);
     this.setState({
       selectedEvent:event,
       isOpen:true
@@ -139,25 +48,18 @@ class Eventsdashboard extends Component {
   }
 
   handleUpdateEvent = (updatedEvent) =>{
+    this.props.updateEvent(updatedEvent);
     this.setState({
-      events: this.state.events.map(event=>{
-        if(event.id === updatedEvent.id){
-          return {...updatedEvent}
-        }else{
-          return event;
-        }
-      }),
       isOpen:false,
       selectEvent:null,
     })
   }
   handleDeleteEvent=(id)=>{
-    this.setState({
-      events:this.state.events.filter(e=>e.id !==id)
-    })
+    this.props.deleteEvent(id);
   }
     render() {
-      const{ events,isOpen,selectedEvent }=this.state;
+      const{ events }=this.props;
+      const{ isOpen,selectedEvent } =this.state;
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -176,4 +78,4 @@ class Eventsdashboard extends Component {
         )
     }
 }
-export default Eventsdashboard;
+export default connect(mapStateToProps,mapDispatchToProps)(Eventsdashboard);
