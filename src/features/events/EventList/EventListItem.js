@@ -4,7 +4,7 @@ import EventListAttendee from './EventListAttendee';
 import { Link } from 'react-router-dom';
 class EventListItem extends Component {
     render() {
-       const {event,selectEvent,deleteEvent} = this.props;
+       const {event,deleteEvent} = this.props;
         return (
                   <Segment.Group>
                         <Segment>
@@ -14,7 +14,7 @@ class EventListItem extends Component {
                               <Item.Content>
                                 <Item.Header as="a">{event.title}</Item.Header>
                                 <Item.Description>
-                                  Hosted by <a>{event.hostedBy}</a>
+                                  Hosted by <span>{event.hostedBy}</span>
                                 </Item.Description>
                               </Item.Content>
                             </Item>

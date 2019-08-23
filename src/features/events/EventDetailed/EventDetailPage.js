@@ -17,7 +17,6 @@ const mapStateToProps = (state,ownProps) =>{
   }
 }
 const EventDetailPage = ({event}) => {
-  console.log(`event:${event}`)
     return (
         <Grid>
             <Grid.Column width={10}>

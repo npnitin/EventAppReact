@@ -9,7 +9,6 @@ import ScrollToTop from './util/ScrollToTop';
 
 const rootElement = document.getElementById('root');
 const store = configureStore();
-console.log(store.getState());
 let render = () =>{
     ReactDOM.render(
     <Provider store={store}>
