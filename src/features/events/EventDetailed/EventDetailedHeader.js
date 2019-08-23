@@ -13,11 +13,11 @@ const eventImageTextStyle = {
     height: 'auto',
     color: 'white'
 };
-const EventDetailedHeader = () => {
+const EventDetailedHeader = (props) => {
     return (
         <Segment.Group>
               <Segment basic attached="top" style={{ padding: '0' }}>
-                <Image src="/assets/categoryImages/drinks.jpg" fluid style={eventImageStyle}/>
+                <Image src={`/assets/categoryImages/${props.event.category}.jpg`} fluid style={eventImageStyle}/>
         
                 <Segment basic style={eventImageTextStyle}>
                   <Item.Group>
@@ -25,12 +25,12 @@ const EventDetailedHeader = () => {
                       <Item.Content>
                         <Header
                           size="huge"
-                          content="Event Title"
+                          content={props.event.title}
                           style={{ color: 'white' }}
                         />
-                        <p>Event Date</p>
+                        <p>{props.event.date}</p>
                         <p>
-                          Hosted by <strong>Hosted by</strong>
+                          Hosted by <strong>{props.event.hostedBy}</strong>
                         </p>
                       </Item.Content>
                     </Item>
