@@ -40,6 +40,7 @@ class EventForm extends Component {
     event.preventDefault();
     if(this.state.id){
       this.props.updateEvent(this.state);
+      this.props.history.push('/events');
     }else{
       const newEvent = {
         ...this.state,
