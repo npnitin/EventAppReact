@@ -1,25 +1,23 @@
 import React, { Component } from 'react'
-import { Segment, Form, Button } from 'semantic-ui-react'
+import { Segment, Form, Button, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { createEvent, updateEvent } from '../EventActions';
 import cuid from 'cuid';
 import { reduxForm, Field } from 'redux-form';
 import TextInput from '../../../util/common/Form/TextInput';
+import TextAreaInput from '../../../util/common/Form/TextAreaInput';
+import SelectInput from '../../../util/common/Form/SelectInput';
 
 const mapStateToProps = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
   let event = {
-    title: '',
-    date: '',
-    city: '',
-    venue: '',
-    hostedBy: ''
+   
   };
   if (eventId && state.events.length > 0) {
     event = state.events.filter(event => event.id === eventId)[0];
   }
   return {
-    event
+    initialValues:event
   }
 }
 
@@ -27,6 +25,15 @@ const mapDispatchToProps = {
   createEvent,
   updateEvent
 }
+
+const category = [
+    {key: 'drinks', text: 'Drinks', value: 'drinks'},
+    {key: 'culture', text: 'Culture', value: 'culture'},
+    {key: 'film', text: 'Film', value: 'film'},
+    {key: 'food', text: 'Food', value: 'food'},
+    {key: 'music', text: 'Music', value: 'music'},
+    {key: 'travel', text: 'Travel', value: 'travel'},
+];
 class EventForm extends Component {
 
   state = { ...this.props.event }
@@ -39,11 +46,10 @@ class EventForm extends Component {
     }
   }
 
-  handleFormSubmit = (event) => {
-    event.preventDefault();
-    if (this.state.id) {
-      this.props.updateEvent(this.state);
-      this.props.history.push('/events');
+  onSubmit = (values) => {
+    if (this.props.initialValues.id) {
+      this.props.updateEvent(values);
+      this.props.history.push(`/events/${values.id}`);
     } else {
       const newEvent = {
         ...this.state,
@@ -62,22 +68,30 @@ class EventForm extends Component {
   }
 
   render() {
-    const { title, date, city, venue, hostedBy } = this.state;
+   
     return (
       <Segment>
-        <Form onSubmit={this.handleFormSubmit} autoComplete='Off'>
+        <Form onSubmit={this.props.handleSubmit(this.onSubmit)} autoComplete='Off'>
+          <Header color='teal' content='Event Details'/>
           <Field 
             name='title' 
             component={TextInput} 
             placeholder='Event Title' />
           <Field 
             name='category' 
-            component={TextInput} 
+            type="text"
+            component={SelectInput} 
+            options={category}
+          /*   multiple={true} */
             placeholder='Event Category' />
           <Field 
             name='description' 
-            component={TextInput} 
+            component={TextAreaInput} 
+            rows={5}
             placeholder='Event Description' />
+            
+
+      <Header color='teal' content='Event Location Details'/>
           <Field 
             name='city' 
             component={TextInput} 
